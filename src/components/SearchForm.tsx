@@ -9,8 +9,7 @@ export const SearchForm = () => {
     const navigate = useNavigate();
     return (
         <div className="searchForm">
-        <div className="searchFormTitle">検索画面</div>
-        <form className="searchItmes">
+            <div className="searchFormTitle">検索画面</div>
             <table className="itemsTable">
                 <tr>
                     <td>
@@ -20,7 +19,7 @@ export const SearchForm = () => {
                     <td className="partner">
                         <span className="itemName">取引先：</span>
                         <input type="text" className="partnerFormInput" />
-                    </td>             
+                    </td>
                 </tr>
                 <tr>
                     <td colSpan={2}>
@@ -40,27 +39,26 @@ export const SearchForm = () => {
                         <input type="date" className="dueDateForm" />
                         <span>～</span>
                         <input type="date" className="dueDateForm" />
-                    </td>    
+                    </td>
                 </tr>
                 <tr>
                     <td colSpan={2}>
                         <div className="buttonForm">
                             <div className="leftButton"></div>
                             <button className="searchButton">検索</button>
-                            <button className="switchingButton" onClick={() => {navigate("/InputForm");}}>入力画面へ</button>
+                            <button className="switchingButton" onClick={() => { navigate("/InputForm"); }}>入力画面へ</button>
                         </div>
                     </td>
                 </tr>
             </table>
-        </form>
-        <hr />
-        <div className="pageNation">
-            <img src={startPage} className="pageNationButton" />
-            <img src={backPage} className="pageNationButton" />
-            <span className="pageNationButton">1</span>
-            <img src={nextPage} className="pageNationButton" />
-            <img src={lastPage} className="pageNationButton"  />
+            <hr />
+            <div className="pageNation">
+                <img src={startPage} className="pageNationButton" />
+                <img src={backPage} className="pageNationButton" />
+                <span className="pageNationButton">1</span>
+                <img src={nextPage} className="pageNationButton" />
+                <img src={lastPage} className="pageNationButton" />
+            </div>
         </div>
-    </div>
     )
 }

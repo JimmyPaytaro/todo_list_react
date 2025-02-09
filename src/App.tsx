@@ -5,13 +5,10 @@ import { SearchForm } from './components/SearchForm';
 import { Main } from './components/Main';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { Test } from './components/test';
-
 function App() {
 
   return (
     <BrowserRouter>
-    <body>
       <Header />
       <Routes>
         <Route path="/" element={<InputForm />} />
@@ -19,7 +16,6 @@ function App() {
         <Route path="/searchForm" element={<SearchForm />} />
       </Routes>
       <Main />
-    </body>
     </BrowserRouter>
   )
 }

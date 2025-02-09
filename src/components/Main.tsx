@@ -25,7 +25,7 @@ export const Main = () => {
                         <div>
                             <span><input type="checkbox" name="status" className="status"/></span>&#12288;
                             <span>期限：</span>
-                            <span>{new Date(item.due_date).toLocaleDateString('ja-JP')}</span>
+                            <span>{item.due_date ? new Date(item.due_date).toLocaleDateString('ja-JP') : '未設定'}</span>
                         </div>
                         <div className="contentHeaderButton">
                             <div className="hideButton"><span className="hideMark">▼</span></div>

@@ -11,6 +11,12 @@
     margin: 0 auto;
 }
 
+.errorMassage {
+    padding-left: 20px;
+    font-size: 18px;
+    color: red;
+}
+
 .itemName {
     font-size: 15px;
     padding-left: 20px;
