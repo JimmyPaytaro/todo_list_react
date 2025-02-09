@@ -1,0 +1,30 @@
+header {
+    width: auto;
+    height: 70px;
+    background-color: #385ac0;
+    color: #ffffff;
+    padding: 0px 20px;
+    margin: 0 auto;
+}
+
+.today {
+    text-align: right;
+    font-size: 18px;
+    padding: 5px 0px;
+}
+
+.headerContents {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; 
+    padding: 5px 0px;
+}
+
+.title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 40px;
+}
