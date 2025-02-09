@@ -1,51 +1,66 @@
 import { useNavigate } from 'react-router-dom';
 import './SearchForm.css';
+import startPage from "../icon/startPage.png";
+import backPage from "../icon/backPage.png";
+import nextPage from "../icon/nextPage.png";
+import lastPage from "../icon/lastPage.png";
 
 export const SearchForm = () => {
     const navigate = useNavigate();
     return (
         <div className="searchForm">
-            <form className="searchItmes">
-                <table className="searchItemsTable">
-                    <tr>
-                        <td colSpan={3} className="searchTitle">
-                            検索画面
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span className="searchItemName">タイトル：</span>
-                            <input type="text" className="searchTextForm" />
-                        </td>
-                        <td>
-                            <span className="searchItemName">取引先・相手：</span>
-                            <input type="text" className="searchPartnerForm" />
-                        </td>
-                        <td>
-                            <span className="searchItemName">期限：</span>
-                            <input type="date" className="searchDueDateForm" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span className="searchItemName">　　詳細：</span>
-                            <input type="text" className="searchDescriptionForm" />
-                        </td>
-                        <td colSpan={2} className="searchDate">
-                            <span className="searchItemName">作成日時：</span>
-                            <input type="date" className="searchDueDateForm" />
-                            <span className="searchItemName2"> ～ </span>
-                             <input type="date" className="searchDueDateForm" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={3} className="searchItemButton">
+        <div className="searchFormTitle">検索画面</div>
+        <form className="searchItmes">
+            <table className="itemsTable">
+                <tr>
+                    <td>
+                        <span className="itemName">タイトル：</span>
+                        <input type="text" className="titleForm" />
+                    </td>
+                    <td className="partner">
+                        <span className="itemName">取引先：</span>
+                        <input type="text" className="partnerFormInput" />
+                    </td>             
+                </tr>
+                <tr>
+                    <td colSpan={2}>
+                        <span className="itemName">&#12288;&#12288;詳細：</span>
+                        <input type="text" className="descriptionForm" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span className="itemName">&#12288;&#12288;期限：</span>
+                        <input type="date" className="dueDateForm" />
+                        <span>～</span>
+                        <input type="date" className="dueDateForm" />
+                    </td>
+                    <td className="createdAt">
+                        <span className="itemName">作成日時：</span>
+                        <input type="date" className="dueDateForm" />
+                        <span>～</span>
+                        <input type="date" className="dueDateForm" />
+                    </td>    
+                </tr>
+                <tr>
+                    <td colSpan={2}>
+                        <div className="buttonForm">
+                            <div className="leftButton"></div>
                             <button className="searchButton">検索</button>
-                            <button className="backButton" onClick={() => {navigate("/InputForm");}}>入力画面へ</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                            <button className="switchingButton" onClick={() => {navigate("/InputForm");}}>入力画面へ</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <hr />
+        <div className="pageNation">
+            <img src={startPage} className="pageNationButton" />
+            <img src={backPage} className="pageNationButton" />
+            <span className="pageNationButton">1</span>
+            <img src={nextPage} className="pageNationButton" />
+            <img src={lastPage} className="pageNationButton"  />
         </div>
+    </div>
     )
 }

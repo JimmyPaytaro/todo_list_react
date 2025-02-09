@@ -1,74 +1,96 @@
 .searchForm {
     height: auto;
     width: auto;
-    padding: 5px 20px;
-    background-color: burlywood;
+    padding: 10px 20px;
+    background-color: #ffffff;
     margin: 0 auto;
+    border: 2px solid #385ac0;
 }
 
-.searchTitle {
+.searchFormTitle {
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
 }
 
-.searchItemsTable {
+.itemsTable {
     margin: 0 auto;
 }
 
-.searchItemName {
+.itemName {
     font-size: 15px;
     padding-left: 20px;
 }
 
-.searchItemName2 {
-    font-size: 15px;
+.titleForm {
+    width: 405px;
 }
 
-.searchTextForm {
-    width: 250px;
-}
-
-.searchPartnerForm {
-    width: 200px;
-}
-
-.searchDueDateForm {
-    width: 140px;
-}
-
-.searchDescriptionForm {
-    width: 250px;
-}
-
-.searchDate {
+.partner {
     text-align: right;
 }
 
-.searchItemButton {
-    text-align: center;
+.partnerFormInput {
+    width: 410px;
+}
+
+.dueDateForm {
+    width: 140px;
+}
+
+.createdAt {
+    text-align: right;
+}
+
+.descriptionForm {
+    width: 900px;
+}
+
+.buttonForm {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.leftButton {
+    justify-content: flex-start;
+    margin-right: 120px;
 }
 
 .searchButton {
+    justify-content: center;
     padding: 5px 0px;
     width: 120px;
-    margin-right: 20px;
     list-style: none;
     border: none;
-    background: #0000cd;
+    background: #385ac0;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 18px;
     color: #ffffff;
 }
 
-.backButton {
+.switchingButton {
+    justify-content: flex-end;
+    right: 0;
     padding: 5px 0px;
     width: 120px;
-    margin-left: 20px;
     list-style: none;
-    border: none;
-    background: yellow;
+    border: 2px solid #385ac0;
+    background: #ffffff;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 18px;
     color: #000000;
+}
+
+.pageNation {
+    display: flex;
+    justify-content: center;
+}
+
+.pageNationButton {
+    text-align: center;
+    margin: 0px 10px;
+    height: 30px;
+    width: 30px;
+    font-size: 20px;
 }
