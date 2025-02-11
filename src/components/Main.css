@@ -49,6 +49,7 @@ main {
     width: 20px;
     background-color: #ffffff;
     margin-right: 5px;
+    cursor: default;
 }
 .hideMark {
     font-size: 18px;
@@ -63,6 +64,7 @@ main {
     height: 20px;
     width: 20px;
     background-color: #ff0000;
+    cursor: default;
 }
 .deleteMark {
     font-size: 18px;

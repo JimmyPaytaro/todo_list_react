@@ -1,0 +1,107 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.updateModal {
+    background: white;
+    width: 1040px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.updateModalHeader {
+    width: 100%;
+    height: auto;
+    background-color: #385ac0;
+    border-radius: 10px 10px 0 0;
+}
+
+.updateModalHeaderContent {
+    padding: 10px 0px 10px  47px;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.updateModalDueDate {
+    margin-left: 10px;
+}
+
+.updateModalBody {
+    margin: 15px;
+}
+
+.updateModalTitle {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.updateModalContent {
+    margin: 10px 0px;
+    font-size: 18px;
+}
+
+.updateModalContentDescription {
+    vertical-align : top;
+}
+
+.updateModalText {
+    margin-left: 10px;
+    width: 900px;
+}
+
+.updateModalTextarea {
+    margin-left: 10px;
+    width: 900px;
+    height: 200px;
+    resize: none;
+}
+
+.updateModalButtonForm {
+    margin: 15px 0px;
+    text-align: right;
+}
+
+.updateModalOK {
+    padding: 5px 0px;
+    margin-right: 10px;
+    width: 100px;
+    list-style: none;
+    border: none;
+    background: #385ac0;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.updateModalCancel {
+    padding: 5px 0px;
+    width: 100px;
+    list-style: none;
+    border: 2px solid #385ac0;
+    background: #ffffff;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #000000;
+}
+
+.errorMassage {
+    padding-left: 20px;
+    font-size: 18px;
+    color: red;
+}
+
+.errorMassageModal {
+    padding-left: 20px;
+    font-size: 18px;
+    color: red;
+    margin-left: 60px;
+}

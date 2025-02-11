@@ -100,21 +100,21 @@ export const InputForm = () => {
                     </tr>
                     <tr>
                         <td>
-                            <span className="itemName">タイトル：</span>
+                            <span className="itemName">タイトル</span>
                             <input type="text" className="titleForm" id="title" />
                         </td>
                         <td>
-                            <span className="itemName">取引先：</span>
+                            <span className="itemName">取引先</span>
                             <input type="text" className="partnerForm" id="partner" />
                         </td>
                         <td>
-                            <span className="itemName">期限：</span>
+                            <span className="itemName">期限</span>
                             <input type="date" className="dueDateForm" id="dueDate" />
                         </td>
                     </tr>
                     <tr>
                         <td colSpan={3}>
-                            <span className="itemName">&#12288;&#12288;詳細：</span>
+                            <span className="itemName">&#12288;&#12288;詳細</span>
                             <input type="text" className="descriptionForm" id="description" />
                         </td>
                     </tr>

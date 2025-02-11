@@ -51,3 +51,36 @@ app.post('/registration', async (req, res) => {
     res.status(500).json({ error: 'Database query failed' });
   }
 });
+
+// 変更
+app.post('/update', async (req, res) => {
+  try {
+    const {id, title, description, partner, dueDate} = req.body;
+
+    const result = await pool.query(
+      'UPDATE todo_app SET title = $2, description = $3, partner = $4, due_date = $5 WHERE id = $1',
+      [id, title, description, partner, dueDate]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});
+
+// 削除
+app.post('/delete', async (req, res) => {
+  try {
+    const {id} = req.body;
+
+    const result = await pool.query('DELETE FROM todo_app WHERE id = $1;',
+      [id]
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});

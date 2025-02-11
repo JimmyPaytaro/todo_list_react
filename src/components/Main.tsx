@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Main.css';
+import { DeleteModal } from './DeleteModal';
+import { UpdateModal } from './UpdateModal';
 import edit from '../icon/edit.png';
 
 export const Main = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([]); // map関数のdata
+    const [deleteShowModal, setDeleteShowModal] = useState(false); // DeleteModalの表示フラグ
+    const [updateShowModal, setUpdateShowModal] = useState(false); // UpdateModalの表示フラグ
+    const [id, setId] = useState<number | undefined>(undefined); // propsに渡す各レコードのid
+    const [title, setTitle] = useState<string | undefined>(undefined); // propsに渡す各レコードのtitle
+    const [description, setDescription] = useState<string | undefined>(undefined); // propsに渡す各レコードのid
+    const [partner, setPartner] = useState<string | undefined>(undefined); // propsに渡す各レコードのid
+    const [dueDate, setDueDate] = useState<Date | undefined>(undefined); // propsに渡す各レコードのid
 
+    // サーバーからデータを取得(一覧表示)
     useEffect(() => {
-        // サーバーからデータを取得
         axios.get('http://localhost:3000/')
             .then((response) => {
                 setData(response.data);
@@ -17,30 +26,54 @@ export const Main = () => {
             });
     }, []);
 
+    // 削除確認のメッセージを表示
+    const handleDelete = (id: number, title: string): void => {
+        setDeleteShowModal(true);
+        setId(id);
+        setTitle(title);
+    }
+
+    // 編集画面を表示
+    const handleUpdate = (
+        id: number, 
+        title: string, 
+        description: string, 
+        partner: string, 
+        dueDate: Date
+    ): void => {
+        setUpdateShowModal(true);
+        setId(id);
+        setTitle(title);
+        setDescription(description);
+        setPartner(partner);
+        setDueDate(dueDate ? dueDate : undefined); // dueDate が未設定の場合は undefined の値をセットする
+    }
+
     return (
+        <>
         <main>
             {data.map((item: any) => (
                 <div key={item.id} className="listRecord">
                     <div className="contentHeader">
                         <div>
-                            <span><input type="checkbox" name="status" className="status"/></span>&#12288;
+                            <span><input type="checkbox" name="status" className="status" /></span>&#12288;
                             <span>期限：</span>
                             <span>{item.due_date ? new Date(item.due_date).toLocaleDateString('ja-JP') : '未設定'}</span>
                         </div>
                         <div className="contentHeaderButton">
                             <div className="hideButton"><span className="hideMark">▼</span></div>
-                            <div className="deleteButton"><span className="deleteMark">×</span></div>
+                            <div className="deleteButton" onClick={() => handleDelete(item.id, item.title)}><span className="deleteMark">×</span></div>
                         </div>
                     </div>
                     <div className="contentBody">
                         <div className="contentRecode">
                             <div className="contentTitle">{item.title}</div>
-                            <div><img src={edit} className="editButton"/></div>
+                            <div onClick={() => handleUpdate(item.id, item.title, item.description, item.partner, item.due_date)}><img src={edit} className="editButton" /></div>
                         </div>
                         <div className="contentRecode">
                             <div>
                                 <span className="contentSubTitle">取引先：</span>
-                                <span>{item.partner}</span>
+                                <span>{item.partner ? item.partner : '未設定'}</span>
                             </div>
                             <div>
                                 <span className="contentSubTitle">作成日時：</span>
@@ -60,11 +93,29 @@ export const Main = () => {
                         </div>
                         <div className="contentDescription">
                             <span className="contentSubTitle">詳細：</span>
-                            <span>{item.description}</span>
+                            <span>{item.description ? item.description : '未設定'}</span>
                         </div>
                     </div>
                 </div>
             ))}
         </main>
+        <DeleteModal deleteShowFlag={deleteShowModal} 
+            setDeleteShowModal={setDeleteShowModal} 
+            setData={setData} 
+            data={data} 
+            id={id} 
+            title={title} 
+        />
+        <UpdateModal updateShowFlag={updateShowModal} 
+            setUpdateShowModal={setUpdateShowModal} 
+            setData={setData} 
+            data={data} 
+            id={id} 
+            title={title} 
+            description={description} 
+            partner={partner} 
+            dueDate={dueDate}
+        />
+        </>
     )
 }

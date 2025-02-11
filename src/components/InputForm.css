@@ -20,6 +20,7 @@
 .itemName {
     font-size: 15px;
     padding-left: 20px;
+    padding-right: 10px;
 }
 
 .titleForm {
@@ -32,6 +33,10 @@
 
 .dueDateForm {
     width: 140px;
+}
+
+.itemBetween {
+    margin: 0px 8px;
 }
 
 .descriptionForm {
