@@ -1,6 +1,6 @@
 import './InputForm.css';
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 import startPage from "../icon/startPage.png";
@@ -8,26 +8,43 @@ import backPage from "../icon/backPage.png";
 import nextPage from "../icon/nextPage.png";
 import lastPage from "../icon/lastPage.png";
 
-export const InputForm = () => {
+export const InputForm = (props: any) => {
     const [errorMassageBlank, setErrorMassageBlank] = useState<string>('');
     const [errorMassageTitle, setErrorMassageTitle] = useState<string>('');
     const [errorMassageDescription, setErrorMassageDescription] = useState<string>('');
     const [errorMassagePartner, setErrorMassagePartner] = useState<string>('');
     const [errorMassageDueDate, setErrorMassageDueDate] = useState<string>('');
     const navigate = useNavigate();
+    const setTitle = useRef(null);
+    const setDescription = useRef(null);
+    const setPartner = useRef(null);
+    const setDueDate = useRef(null);
+
+    // サーバーからデータを取得(一覧表示)
+    useEffect(() => {
+        axios.get('http://localhost:3000/')
+            .then((response) => {
+                props.setData(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     const handleClick = (): void => {
         errorMassageReset(); // エラーメッセージをリセットする
 
         // 入力フォームの値を取得
-        const titleElement = document.getElementById('title') as HTMLInputElement | null;
-        const descriptionElement = document.getElementById('description') as HTMLInputElement | null;
-        const partnerElement = document.getElementById('partner') as HTMLInputElement | null;
-        const dueDateElement = document.getElementById('dueDate') as HTMLInputElement | null;
+        const titleElement = setTitle.current as HTMLInputElement | null;
+        const descriptionElement = setDescription.current as HTMLInputElement | null;
+        const partnerElement = setPartner.current as HTMLInputElement | null;
+        const dueDateElement = setDueDate.current as HTMLInputElement | null;
+        // Element | null 型をキャストする
         const title: string = titleElement ? titleElement.value : '';
         const description: string = descriptionElement ? descriptionElement.value : '';
         const partner: string = partnerElement ? partnerElement.value : '';
         const dueDate: Date = new Date(dueDateElement!.value);
+        // データベースに送信する値
         const dataToSend = { title, description, partner, dueDate };
 
         let hasError = false; // エラーチェックフラグ
@@ -101,21 +118,21 @@ export const InputForm = () => {
                     <tr>
                         <td>
                             <span className="itemName">タイトル</span>
-                            <input type="text" className="titleForm" id="title" />
+                            <input type="text" className="titleForm" ref={setTitle} />
                         </td>
                         <td>
                             <span className="itemName">取引先</span>
-                            <input type="text" className="partnerForm" id="partner" />
+                            <input type="text" className="partnerForm" ref={setPartner} />
                         </td>
                         <td>
                             <span className="itemName">期限</span>
-                            <input type="date" className="dueDateForm" id="dueDate" />
+                            <input type="date" className="dueDateForm" ref={setDueDate} />
                         </td>
                     </tr>
                     <tr>
                         <td colSpan={3}>
                             <span className="itemName">&#12288;&#12288;詳細</span>
-                            <input type="text" className="descriptionForm" id="description" />
+                            <input type="text" className="descriptionForm" ref={setDescription} />
                         </td>
                     </tr>
                     <tr>

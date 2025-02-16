@@ -55,6 +55,7 @@ main {
     font-size: 18px;
     color: #000000;
     margin-top: 3px;
+    user-select: none;
 }
 
 .deleteButton {
@@ -70,6 +71,7 @@ main {
     font-size: 18px;
     color: #ffffff;
     margin-top: 3px;
+    user-select: none;
 }
 
 .contentRecode {
@@ -99,4 +101,8 @@ main {
 
 .contentDescription {
     padding: 0px 15px 10px 15px;
+}
+
+.hideRecode {
+    margin-top: 10px;
 }

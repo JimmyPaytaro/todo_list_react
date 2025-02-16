@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import './Main.css';
 import { DeleteModal } from './DeleteModal';
 import { UpdateModal } from './UpdateModal';
 import edit from '../icon/edit.png';
 
-export const Main = () => {
-    const [data, setData] = useState([]); // map関数のdata
+export const Main = (props: any) => {
     const [deleteShowModal, setDeleteShowModal] = useState(false); // DeleteModalの表示フラグ
     const [updateShowModal, setUpdateShowModal] = useState(false); // UpdateModalの表示フラグ
     const [id, setId] = useState<number | undefined>(undefined); // propsに渡す各レコードのid
@@ -14,17 +12,9 @@ export const Main = () => {
     const [description, setDescription] = useState<string | undefined>(undefined); // propsに渡す各レコードのid
     const [partner, setPartner] = useState<string | undefined>(undefined); // propsに渡す各レコードのid
     const [dueDate, setDueDate] = useState<Date | undefined>(undefined); // propsに渡す各レコードのid
-
-    // サーバーからデータを取得(一覧表示)
-    useEffect(() => {
-        axios.get('http://localhost:3000/')
-            .then((response) => {
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
+    const [descriptionShowFlag, setDescriptionShowFlag] = useState(
+        Object.fromEntries(props.data.map((item: any) => [item.id, false]))
+    ); // 詳細の表示フラグ
 
     // 削除確認のメッセージを表示
     const handleDelete = (id: number, title: string): void => {
@@ -49,10 +39,19 @@ export const Main = () => {
         setDueDate(dueDate ? dueDate : undefined); // dueDate が未設定の場合は undefined の値をセットする
     }
 
+    // 詳細を表示・非表示
+    const handleShowDescription = (id: number): void => {
+        setDescriptionShowFlag((prev: any) => ({
+                ...prev,
+                [id]: !prev[id]
+              }));
+        console.log(descriptionShowFlag);
+    }
+
     return (
         <>
         <main>
-            {data.map((item: any) => (
+            {props.data.map((item: any) => (
                 <div key={item.id} className="listRecord">
                     <div className="contentHeader">
                         <div>
@@ -61,7 +60,11 @@ export const Main = () => {
                             <span>{item.due_date ? new Date(item.due_date).toLocaleDateString('ja-JP') : '未設定'}</span>
                         </div>
                         <div className="contentHeaderButton">
-                            <div className="hideButton"><span className="hideMark">▼</span></div>
+                            <div className="hideButton" onClick={() => handleShowDescription(item.id)}>
+                                <span className="hideMark">
+                                {descriptionShowFlag[item.id] ? '-' : '▼' }
+                                </span>
+                            </div>
                             <div className="deleteButton" onClick={() => handleDelete(item.id, item.title)}><span className="deleteMark">×</span></div>
                         </div>
                     </div>
@@ -88,28 +91,34 @@ export const Main = () => {
                                 </span>
                             </div>
                         </div>
-                        <div className="contentLine">
-                            <hr />
-                        </div>
-                        <div className="contentDescription">
-                            <span className="contentSubTitle">詳細：</span>
-                            <span>{item.description ? item.description : '未設定'}</span>
-                        </div>
+                        {descriptionShowFlag[item.id] ? (
+                            <>
+                                <div className="contentLine">
+                                    <hr />
+                                </div>
+                                <div className="contentDescription">
+                                    <span className="contentSubTitle">詳細：</span>
+                                    <span>{item.description ? item.description : '未設定'}</span>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="hideRecode"></div>
+                        )}
                     </div>
                 </div>
             ))}
         </main>
         <DeleteModal deleteShowFlag={deleteShowModal} 
             setDeleteShowModal={setDeleteShowModal} 
-            setData={setData} 
-            data={data} 
+            setData={props.setData} 
+            data={props.data} 
             id={id} 
             title={title} 
         />
         <UpdateModal updateShowFlag={updateShowModal} 
             setUpdateShowModal={setUpdateShowModal} 
-            setData={setData} 
-            data={data} 
+            setData={props.setData} 
+            data={props.data} 
             id={id} 
             title={title} 
             description={description} 

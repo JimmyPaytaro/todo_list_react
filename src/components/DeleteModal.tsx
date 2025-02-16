@@ -25,7 +25,7 @@ export const DeleteModal = (props: any) => {
           <div className="deleteModal">
             <div className="deleteModalHeader"></div>
             <div className="deleteModalBody">
-              <div className="deleteModalTitle">以下の内容を削除してもよろしいでしょうか？</div>
+              <div className="deleteModalTitle">削除してもよろしいですか？</div>
               <div className="deleteModalContent">タイトル：{props.title}</div>
               <hr />
               <div className="deleteModalButtonForm">

@@ -52,6 +52,36 @@ app.post('/registration', async (req, res) => {
   }
 });
 
+// 検索
+app.get('/search', async (req, res) => {
+  try {
+    const {title, description, partner, dueDateStart, dueDateEnd, createdAtStart, createdAtEnd} = req.query;
+    const titleSearch = `%${title}%`;
+    const descriptionSearch = `%${description}%`;
+    const partnerSearch = `%${partner}%`;
+    const dueDateStartSearch = dueDateStart ? `%${dueDateStart}%` : `%${'1900-01-01'}%`;
+    const dueDateEndSearch = dueDateEnd ? `%${dueDateEnd}%` : `%${'2999-12-31'}%`;
+    const createdAtStartSearch = createdAtStart ? `%${createdAtStart}%` : `%${'1900-01-01'}%`;
+    const createdAtEndSearch = createdAtEnd ? `%${createdAtEnd}%` : `%${'2999-12-31'}%`;
+
+    const result = await pool.query(`SELECT * FROM todo_app WHERE 
+      title LIKE $1 AND 
+      description LIKE $2 AND 
+      partner LIKE $3 AND 
+      (due_date BETWEEN $4 AND $5) AND 
+      (created_at BETWEEN $6 AND $7)
+      ORDER BY id DESC`,
+      [titleSearch, descriptionSearch, partnerSearch, dueDateStartSearch, dueDateEndSearch, createdAtStartSearch, createdAtEndSearch]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});
+
+
 // 変更
 app.post('/update', async (req, res) => {
   try {

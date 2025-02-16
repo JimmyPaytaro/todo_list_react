@@ -38,7 +38,7 @@ export const UpdateModal = (props: any) => {
         }
       }, [props.updateShowFlag]);
 
-    // 更新作業
+    // 更新処理
     const handleUpdate = (): void => {
         errorMassageReset(); // エラーメッセージをリセットする
 
@@ -47,11 +47,14 @@ export const UpdateModal = (props: any) => {
         const descriptionElement = setDescription.current as HTMLInputElement | null;
         const partnerElement = setPartner.current as HTMLInputElement | null;
         const dueDateElement = setDueDate.current as HTMLInputElement | null;
+        // Element | null 型をキャストする
         const title: string = titleElement ? titleElement.value : '';
         const description: string = descriptionElement ? descriptionElement.value : '';
         const partner: string = partnerElement ? partnerElement.value : '';
         const dueDate: Date = new Date(dueDateElement!.value);
+        // propsに渡す値
         const id: number = props.id;
+        // データベースに送信する値
         const dataToSend = { id, title, description, partner, dueDate };
 
         let hasError = false; // エラーチェックフラグ
