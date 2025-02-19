@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Main.css';
 import { DeleteModal } from './DeleteModal';
 import { UpdateModal } from './UpdateModal';
@@ -12,9 +13,23 @@ export const Main = (props: any) => {
     const [description, setDescription] = useState<string | undefined>(undefined); // propsに渡す各レコードのid
     const [partner, setPartner] = useState<string | undefined>(undefined); // propsに渡す各レコードのid
     const [dueDate, setDueDate] = useState<Date | undefined>(undefined); // propsに渡す各レコードのid
+    // 詳細の表示フラグ
     const [descriptionShowFlag, setDescriptionShowFlag] = useState(
         Object.fromEntries(props.data.map((item: any) => [item.id, false]))
-    ); // 詳細の表示フラグ
+    );
+    const [changeStatus, setChangeStatus] = useState<{id: number, status: boolean}>({id: 0, status: false}); // データベースのstatusを変更するための値
+    const [status, setStatus] = useState<Record<number, boolean>>({}); // checkboxの値をstateで取得する
+
+    // statusが変更されたときに値を変更する
+    useEffect((): void => {
+            const id: number = changeStatus.id;
+            const isChecked = changeStatus.status;
+            axios.post(`http://localhost:3000/statusChange/${isChecked ? 'true' : 'false'}`, { id })
+                .then()
+                .catch(error => {
+                    console.error('Error updating data:', error);
+                });        
+    }, [status]);
 
     // 削除確認のメッセージを表示
     const handleDelete = (id: number, title: string): void => {
@@ -45,7 +60,20 @@ export const Main = (props: any) => {
                 ...prev,
                 [id]: !prev[id]
               }));
-        console.log(descriptionShowFlag);
+    }
+    
+    // statusの値を変更(タスクの完了・未完了)
+    const handleShowStatus = (id: number, defaultStatus: boolean): void => {
+        setStatus((prev: any) => ({
+                ...prev,
+                [id]: !prev[id]
+                }))
+
+        if (defaultStatus === !status[id]) {
+            setChangeStatus({id: id, status: false}); // checkboxとstatusの値が合わなければfalseにする
+        } else {
+            setChangeStatus({id: id, status: !status[id]}); // checkboxとstatusの値が合えばcheckboxの結果と同値を返す
+        }
     }
 
     return (
@@ -55,7 +83,9 @@ export const Main = (props: any) => {
                 <div key={item.id} className="listRecord">
                     <div className="contentHeader">
                         <div>
-                            <span><input type="checkbox" name="status" className="status" /></span>&#12288;
+                            <span>
+                                <input type="checkbox" className="status" defaultChecked={item.status} onChange={() => handleShowStatus(item.id, item.status)} />
+                            </span>&#12288;
                             <span>期限：</span>
                             <span>{item.due_date ? new Date(item.due_date).toLocaleDateString('ja-JP') : '未設定'}</span>
                         </div>

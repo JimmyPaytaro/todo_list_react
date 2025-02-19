@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SearchForm.css';
@@ -41,6 +41,17 @@ export const SearchForm = (props: any) => {
     const setCreatedAtStart = useRef(null);
     const setCreatedAtEnd = useRef(null);
 
+    // サーバーからデータを取得(一覧表示)
+    useEffect(() => {
+        axios.get('http://localhost:3000/')
+            .then((response) => {
+                props.setData(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
     // 検索処理
     const handleSearch = (): void => {
         errorMassageReset(); // エラーメッセージをリセットする
@@ -78,6 +89,11 @@ export const SearchForm = (props: any) => {
             hasError = true;
         }
 
+        // エラーフラグがtrueの場合に処理を中断
+        if (hasError) {
+            return;
+        }
+
         // 検索実行
         // クエリパラメータを構築
         const queryParams = new URLSearchParams({ title, description, partner, dueDateStart, dueDateEnd, createdAtStart, createdAtEnd }).toString();
@@ -95,7 +111,7 @@ export const SearchForm = (props: any) => {
     }
 
     // onChangeメソッド
-    const inputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
         setInputText((prev) => ({
           ...prev,

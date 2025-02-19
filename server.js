@@ -114,3 +114,37 @@ app.post('/delete', async (req, res) => {
     res.status(500).json({ error: 'Database query failed' });
   }
 });
+
+// statusをfalseに変更する
+app.post('/statusChange/false', async (req, res) => {
+  try {
+    const {id} = req.body;
+
+    const result = await pool.query(
+      'UPDATE todo_app SET status = false WHERE id = $1',
+      [id]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});
+
+// statusをtrueに変更する
+app.post('/statusChange/true', async (req, res) => {
+  try {
+    const {id} = req.body;
+
+    const result = await pool.query(
+      'UPDATE todo_app SET status = true WHERE id = $1',
+      [id]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});
