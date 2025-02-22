@@ -82,12 +82,16 @@ export const Main = (props: any) => {
         }
     }
 
+
+
     return (
         <>
         <main>
             {props.data.map((item: any) => (
-                <div key={item.id} className="listRecord" style={{ opacity: item.status ? 0.3 : 1}}>
-                    <div className="contentHeader">
+                <div key={item.id} 
+                    className={item.status ? 'listRecordCheckOver' : (new Date(item.due_date) <= new Date()) && (item.due_date) ? 'listRecordDueDateOver' : 'listRecord'} 
+                    style={{ opacity: item.status ? 0.3 : 1}}>
+                    <div className={item.status ? 'contentHeaderCheckOver' : (new Date(item.due_date) <= new Date()) && (item.due_date) ? 'contentHeaderDueDateOver' : 'contentHeader'}>
                         <div>
                             <span>
                                 <input type="checkbox" className="status" checked={item.status} onChange={() => handleShowStatus(item.id, item.status)} />

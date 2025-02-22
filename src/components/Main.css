@@ -13,6 +13,24 @@ main {
     border: 2px solid #385ac0;
 }
 
+.listRecordDueDateOver {
+    width: auto;
+    height: auto;
+    margin: 15px 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 2px solid #ff8c00;
+}
+
+.listRecordCheckOver {
+    width: auto;
+    height: auto;
+    margin: 15px 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 2px solid #808080;
+}
+
 .content {
     width: 1080px;
     height: auto;
@@ -27,6 +45,28 @@ main {
     margin-bottom: 5px;
     background-color: #385ac0;
     border: 1px solid #385ac0;
+    color: #ffffff;
+}
+
+.contentHeaderDueDateOver {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px 15px;
+    margin-bottom: 5px;
+    background-color: #ff8c00;
+    border: 1px solid #ff8c00;
+    color: #ffffff;
+}
+
+.contentHeaderCheckOver {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px 15px;
+    margin-bottom: 5px;
+    background-color: #808080;
+    border: 1px solid #808080;
     color: #ffffff;
 }
 
