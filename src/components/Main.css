@@ -35,6 +35,10 @@ main {
     margin-top: 5px;
 }
 
+.status:hover {
+    transform: scale(1.7);
+}
+
 .contentHeaderButton {
     display: flex;
     flex-direction: row;
@@ -51,6 +55,11 @@ main {
     margin-right: 5px;
     cursor: default;
 }
+
+.hideButton:hover {
+    background-color: #dcdcdc;
+}
+
 .hideMark {
     font-size: 18px;
     color: #000000;
@@ -67,6 +76,11 @@ main {
     background-color: #ff0000;
     cursor: default;
 }
+
+.deleteButton:hover {
+    background-color: #ff4d4d
+}
+
 .deleteMark {
     font-size: 18px;
     color: #ffffff;
@@ -95,12 +109,28 @@ main {
     height: 25px;
 }
 
+.editButton:hover {
+    width: 26px;
+    height: 26px;
+    background-color: #dcdcdc;
+}
+
 .contentLine {
     padding: 0px 15px;
 }
 
 .contentDescription {
+    display: flex;
     padding: 0px 15px 10px 15px;
+}
+
+.contentSubTitleDescription {
+    font-size: 13px;
+    padding-top: 3px;
+}
+
+.descriptionText {
+    white-space: pre-line;
 }
 
 .hideRecode {

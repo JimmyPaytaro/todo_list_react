@@ -56,6 +56,10 @@
     color: #ffffff;
 }
 
+.deleteModalOK:hover {
+    background: #5678dc;
+}
+
 .deleteModalCancel {
     padding: 5px 0px;
     width: 100px;
@@ -65,4 +69,8 @@
     border-radius: 5px;
     font-size: 18px;
     color: #000000;
+}
+
+.deleteModalCancel:hover {
+    background: #dcdcdc;
 }

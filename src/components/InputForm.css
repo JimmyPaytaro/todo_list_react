@@ -39,8 +39,46 @@
     margin: 0px 8px;
 }
 
-.descriptionForm {
-    width: 900px;
+.descriptionRecode {
+    display: flex;
+}
+
+.descriptionTextForm {
+    width: 852px;
+}
+
+.itemNameTextarea {
+    vertical-align : top;
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 15px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.descriptionTextareaForm {
+    width: 852px;
+    height: 150px;
+    resize: none;
+}
+
+.descriptionFormHideButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    border-radius: 2px;
+    border: 1px solid #000000;
+    cursor: default;
+}
+
+.descriptionHideMark {
+    font-size: 20px;
+    color: #000000;
+    margin-top: 3px;
+    user-select: none;
 }
 
 .buttonForm {
@@ -66,6 +104,10 @@
     color: #ffffff;
 }
 
+.inputButton:hover {
+    background: #5678dc;
+}
+
 .switchingButton {
     justify-content: flex-end;
     right: 0;
@@ -77,6 +119,10 @@
     border-radius: 5px;
     font-size: 18px;
     color: #000000;
+}
+
+.switchingButton:hover {
+    background: #dcdcdc;
 }
 
 .pageNation {

@@ -25,7 +25,13 @@ export const Main = (props: any) => {
             const id: number = changeStatus.id;
             const isChecked = changeStatus.status;
             axios.post(`http://localhost:3000/statusChange/${isChecked ? 'true' : 'false'}`, { id })
-                .then()
+                .then(() => {
+                        props.setData((prevData: any) =>
+                          prevData.map((item: any) =>
+                            item.id === id ? { ...item, status: isChecked } : item
+                          )
+                        );
+                      })
                 .catch(error => {
                     console.error('Error updating data:', error);
                 });        
@@ -80,28 +86,28 @@ export const Main = (props: any) => {
         <>
         <main>
             {props.data.map((item: any) => (
-                <div key={item.id} className="listRecord">
+                <div key={item.id} className="listRecord" style={{ opacity: item.status ? 0.3 : 1}}>
                     <div className="contentHeader">
                         <div>
                             <span>
-                                <input type="checkbox" className="status" defaultChecked={item.status} onChange={() => handleShowStatus(item.id, item.status)} />
+                                <input type="checkbox" className="status" checked={item.status} onChange={() => handleShowStatus(item.id, item.status)} />
                             </span>&#12288;
                             <span>期限：</span>
                             <span>{item.due_date ? new Date(item.due_date).toLocaleDateString('ja-JP') : '未設定'}</span>
                         </div>
                         <div className="contentHeaderButton">
                             <div className="hideButton" onClick={() => handleShowDescription(item.id)}>
-                                <span className="hideMark">
-                                {descriptionShowFlag[item.id] ? '-' : '▼' }
+                                <span className="hideMark" title="詳細">
+                                {descriptionShowFlag[item.id] ? '－' : '▼' }
                                 </span>
                             </div>
-                            <div className="deleteButton" onClick={() => handleDelete(item.id, item.title)}><span className="deleteMark">×</span></div>
+                            <div className="deleteButton" onClick={() => handleDelete(item.id, item.title)}><span className="deleteMark" title="削除">×</span></div>
                         </div>
                     </div>
                     <div className="contentBody">
                         <div className="contentRecode">
                             <div className="contentTitle">{item.title}</div>
-                            <div onClick={() => handleUpdate(item.id, item.title, item.description, item.partner, item.due_date)}><img src={edit} className="editButton" /></div>
+                            <div onClick={() => handleUpdate(item.id, item.title, item.description, item.partner, item.due_date)}><img src={edit} className="editButton" title="編集" /></div>
                         </div>
                         <div className="contentRecode">
                             <div>
@@ -127,8 +133,8 @@ export const Main = (props: any) => {
                                     <hr />
                                 </div>
                                 <div className="contentDescription">
-                                    <span className="contentSubTitle">詳細：</span>
-                                    <span>{item.description ? item.description : '未設定'}</span>
+                                    <div className="contentSubTitleDescription">詳細：</div>
+                                    <div className="descriptionText">{item.description ? item.description : '未設定'}</div>
                                 </div>
                             </>
                         ) : (

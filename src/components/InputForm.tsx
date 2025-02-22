@@ -20,6 +20,8 @@ export const InputForm = (props: any) => {
     const setPartner = useRef(null);
     const setDueDate = useRef(null);
 
+    const [descriptionInputShowFlag, setDescriptionInputShowFlag] = useState(false); // 詳細フォームの表示切替フラグ
+
     // サーバーからデータを取得(一覧表示)
     useEffect(() => {
         axios.get('http://localhost:3000/')
@@ -101,6 +103,12 @@ export const InputForm = (props: any) => {
         setErrorMassageDueDate('');
     }
 
+    // 詳細の入力フォームを切替える
+    const handleShowDescription = ():void => {
+        setDescriptionInputShowFlag((prev) => !prev);
+        console.log(descriptionInputShowFlag);
+    }
+
 
     return (
         <div className="inputForm">
@@ -131,8 +139,26 @@ export const InputForm = (props: any) => {
                     </tr>
                     <tr>
                         <td colSpan={3}>
-                            <span className="itemName">&#12288;&#12288;詳細</span>
-                            <input type="text" className="descriptionForm" ref={setDescription} />
+                            <div className="descriptionRecode">
+                                <div>
+                                    {!descriptionInputShowFlag ? (
+                                        <>
+                                        <span className="itemName">&#12288;&#12288;詳細</span>
+                                        <input type="text" className="descriptionTextForm" ref={setDescription} />
+                                        </>
+                                    ) : (
+                                        <>
+                                        <span className="itemNameTextarea">&#12288;&#12288;詳細</span>
+                                        <textarea className="descriptionTextareaForm" ref={setDescription}></textarea>
+                                        </>
+                                    ) }
+                                </div>
+                                <div className="descriptionFormHideButton" onClick={handleShowDescription}>
+                                    <span className="descriptionHideMark" title="入力フォームの切替">
+                                    {descriptionInputShowFlag ? '－' : '▼' }
+                                    </span>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>

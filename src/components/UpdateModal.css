@@ -82,6 +82,10 @@
     color: #ffffff;
 }
 
+.updateModalOK:hover {
+    background: #5678dc;
+}
+
 .updateModalCancel {
     padding: 5px 0px;
     width: 100px;
@@ -91,6 +95,10 @@
     border-radius: 5px;
     font-size: 18px;
     color: #000000;
+}
+
+.updateModalCancel:hover {
+    background: #dcdcdc;
 }
 
 .errorMassage {

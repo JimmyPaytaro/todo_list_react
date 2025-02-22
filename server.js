@@ -55,23 +55,31 @@ app.post('/registration', async (req, res) => {
 // 検索
 app.get('/search', async (req, res) => {
   try {
-    const {title, description, partner, dueDateStart, dueDateEnd, createdAtStart, createdAtEnd} = req.query;
+    const { title, description, partner, dueDateStart, dueDateEnd, createdAtStart, createdAtEnd } = req.query;
     const titleSearch = `%${title}%`;
     const descriptionSearch = `%${description}%`;
     const partnerSearch = `%${partner}%`;
-    const dueDateStartSearch = dueDateStart ? `%${dueDateStart}%` : `%${'1900-01-01'}%`;
-    const dueDateEndSearch = dueDateEnd ? `%${dueDateEnd}%` : `%${'2999-12-31'}%`;
-    const createdAtStartSearch = createdAtStart ? `%${createdAtStart}%` : `%${'1900-01-01'}%`;
-    const createdAtEndSearch = createdAtEnd ? `%${createdAtEnd}%` : `%${'2999-12-31'}%`;
+    const dueDateStartSearch = dueDateStart ? dueDateStart : '1900-01-01';
+    const dueDateEndSearch = dueDateEnd ? dueDateEnd : '2999-12-31';
+    const createdAtStartSearch = createdAtStart ? createdAtStart : '1900-01-01';
+    const createdAtEndSearch = createdAtEnd ? createdAtEnd : '2999-12-31';
+
+    let dueDateCondition = "(due_date BETWEEN $4 AND $5)"; // 通常の期限範囲内検索
+    let queryParams = [titleSearch, descriptionSearch, partnerSearch, dueDateStartSearch, dueDateEndSearch, createdAtStartSearch, createdAtEndSearch];
+    
+    // もし期限開始と期限終了が共に空白だった場合、期限範囲内検索にIS NULLの条件も追加する
+    if (!dueDateStart && !dueDateEnd) {
+      dueDateCondition = "(due_date IS NULL OR due_date BETWEEN $4 AND $5)";
+    }
 
     const result = await pool.query(`SELECT * FROM todo_app WHERE 
       title LIKE $1 AND 
       description LIKE $2 AND 
       partner LIKE $3 AND 
-      (due_date BETWEEN $4 AND $5) AND 
+      ${dueDateCondition} AND 
       (created_at BETWEEN $6 AND $7)
       ORDER BY id DESC`,
-      [titleSearch, descriptionSearch, partnerSearch, dueDateStartSearch, dueDateEndSearch, createdAtStartSearch, createdAtEndSearch]
+      queryParams
     );
 
     res.json(result.rows);
@@ -80,7 +88,6 @@ app.get('/search', async (req, res) => {
     res.status(500).json({ error: 'Database query failed' });
   }
 });
-
 
 // 変更
 app.post('/update', async (req, res) => {
