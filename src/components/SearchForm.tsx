@@ -7,8 +7,6 @@ import ReactPaginate from 'react-paginate';
 export const SearchForm = (props: any) => {
     const navigate = useNavigate();
 
-
-
     const [errorMassageTitle, setErrorMassageTitle] = useState<string>('');
     const [errorMassageDescription, setErrorMassageDescription] = useState<string>('');
     const [errorMassagePartner, setErrorMassagePartner] = useState<string>('');
@@ -41,6 +39,7 @@ export const SearchForm = (props: any) => {
     const setCreatedAtEnd = useRef(null);
 
     const [allData, setAllData] = useState([]); // react-paginateのためのstate
+    const [paginateReload, setPaginateReload] = useState(0); // paginateコンポーネントを更新するためのstate
 
     // サーバーからデータを取得(一覧表示)
     useEffect(() => {
@@ -53,13 +52,6 @@ export const SearchForm = (props: any) => {
                 console.error('Error fetching data:', error);
             });
     }, []);
-
-    /*
-    // 検索を実行した際に、表示ページを1ページ目にリセットする
-    useEffect(() => {
-        props.setStart(0)
-    }, [props.data]);
-    */
 
     // react-paginateの実行メソッド
     function pageChange(allData: any):void {
@@ -119,6 +111,8 @@ export const SearchForm = (props: any) => {
                 props.setData(response.data); // 一覧表示するためのstate
                 setAllData(response.data); // paginateを実行するためにallDataのstateに入れる
                 props.setStart(0) // 1ページ目から表示させるためにstartに0を代入する
+                setPaginateReload(prevKey => prevKey + 1); // コンポーネントのkeyの値を変更してpaginateコンポーネントを更新する
+
                 if (response.data.length === 0) {
                     window.alert('指定された条件に一致するデータは存在しません。');
                 }
@@ -222,26 +216,29 @@ export const SearchForm = (props: any) => {
             </table>
             <hr />
 
-            <ReactPaginate
-                pageCount={Math.ceil(allData.length / props.perPage)} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
-                marginPagesDisplayed={2} //先頭と末尾に表示するページの数。今回は2としたので1,2…今いるページの前後…後ろから2番目, 1番目 のように表示されます。
-                pageRangeDisplayed={5} //上記の「今いるページの前後」の番号をいくつ表示させるかを決めます。
-                onPageChange={pageChange} //ページネーションのリンクをクリックしたときのイベント(詳しくは下で解説します)
-                containerClassName='pagination' //ページネーションリンクの親要素のクラス名
-                pageClassName='pageItem' //各子要素(li要素)のクラス名
-                pageLinkClassName='pageLink' //ページネーションのリンクのクラス名
-                activeClassName='active' //今いるページ番号のクラス名。今いるページの番号だけ太字にしたりできます 
-                previousLabel='<' //前のページ番号に戻すリンクのテキスト
-                nextLabel='>' //次のページに進むボタンのテキスト
-                previousClassName='pageItem' // '<'の親要素(li)のクラス名
-                nextClassName='pageItem' //'>'の親要素(li)のクラス名
-                previousLinkClassName='pageLink'  //'<'のリンクのクラス名
-                nextLinkClassName='pageLink' //'>'のリンクのクラス名
-                disabledClassName='disabled' //先頭 or 末尾に行ったときにそれ以上戻れ(進め)なくするためのクラス
-                breakLabel='...' // ページがたくさんあるときに表示しない番号に当たる部分をどう表示するか
-                breakClassName='pageItem' // 上記の「…」のクラス名
-                breakLinkClassName='pageLink' // 「…」の中のリンクにつけるクラス
-            />
+            {allData.length === 0 ? <></> : 
+                <ReactPaginate
+                    pageCount={Math.ceil(allData.length / props.perPage)} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
+                    marginPagesDisplayed={2} //先頭と末尾に表示するページの数。今回は2としたので1,2…今いるページの前後…後ろから2番目, 1番目 のように表示されます。
+                    pageRangeDisplayed={5} //上記の「今いるページの前後」の番号をいくつ表示させるかを決めます。
+                    onPageChange={pageChange} //ページネーションのリンクをクリックしたときのイベント
+                    containerClassName='pagination' //ページネーションリンクの親要素のクラス名
+                    pageClassName='pageItem' //各子要素(li要素)のクラス名
+                    pageLinkClassName='pageLink' //ページネーションのリンクのクラス名
+                    activeClassName='active' //今いるページ番号のクラス名。今いるページの番号だけ太字にしたりできます 
+                    previousLabel='<' //前のページ番号に戻すリンクのテキスト
+                    nextLabel='>' //次のページに進むボタンのテキスト
+                    previousClassName='pageItem' // '<'の親要素(li)のクラス名
+                    nextClassName='pageItem' //'>'の親要素(li)のクラス名
+                    previousLinkClassName='pageLink'  //'<'のリンクのクラス名
+                    nextLinkClassName='pageLink' //'>'のリンクのクラス名
+                    disabledClassName='disabled' //先頭 or 末尾に行ったときにそれ以上戻れ(進め)なくするためのクラス
+                    breakLabel='...' // ページがたくさんあるときに表示しない番号に当たる部分をどう表示するか
+                    breakClassName='pageItem' // 上記の「…」のクラス名
+                    breakLinkClassName='pageLink' // 「…」の中のリンクにつけるクラス
+                    key={paginateReload} // コンポーネントを更新するためのキー
+                />
+            }
         </div>
     )
 }

@@ -185,7 +185,7 @@ export const InputForm = (props: any) => {
                 pageCount={Math.ceil(allData.length / props.perPage)} //総ページ数。今回は一覧表示したいデータ数 / 1ページあたりの表示数としてます。
                 marginPagesDisplayed={2} //先頭と末尾に表示するページの数。今回は2としたので1,2…今いるページの前後…後ろから2番目, 1番目 のように表示されます。
                 pageRangeDisplayed={5} //上記の「今いるページの前後」の番号をいくつ表示させるかを決めます。
-                onPageChange={pageChange} //ページネーションのリンクをクリックしたときのイベント(詳しくは下で解説します)
+                onPageChange={pageChange} //ページネーションのリンクをクリックしたときのイベント
                 containerClassName='pagination' //ページネーションリンクの親要素のクラス名
                 pageClassName='pageItem' //各子要素(li要素)のクラス名
                 pageLinkClassName='pageLink' //ページネーションのリンクのクラス名
