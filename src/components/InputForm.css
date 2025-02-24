@@ -1,7 +1,7 @@
 .inputForm {
     height: auto;
     width: auto;
-    padding: 15px 20px;
+    padding: 15px 20px 0px 20px;
     background-color: #ffffff;
     margin: 0 auto;
     border: 2px solid #385ac0;
@@ -74,6 +74,10 @@
     cursor: default;
 }
 
+.descriptionFormHideButton:hover {
+    background-color: #dcdcdc;
+}
+
 .descriptionHideMark {
     font-size: 20px;
     color: #000000;
@@ -125,15 +129,32 @@
     background: #dcdcdc;
 }
 
-.pageNation {
+.pagination {
     display: flex;
     justify-content: center;
+    list-style: none;
 }
 
-.pageNationButton {
+.pageItem {
     text-align: center;
     margin: 0px 10px;
-    height: 30px;
-    width: 30px;
-    font-size: 20px;
+    font-size: 25px;
+    color: #5678dc;
+}
+
+.active {
+    color: #000000;
+}
+
+.pageLink {
+    user-select: none;
+    cursor: pointer;
+}
+
+.pageLink:hover {
+    text-decoration: underline;
+}
+
+.disabled {
+    visibility: hidden;
 }

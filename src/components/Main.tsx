@@ -83,11 +83,10 @@ export const Main = (props: any) => {
     }
 
 
-
     return (
         <>
         <main>
-            {props.data.map((item: any) => (
+            {props.data.slice(props.start, props.start + props.perPage).map((item: any) => (
                 <div key={item.id} 
                     className={item.status ? 'listRecordCheckOver' : (new Date(item.due_date) <= new Date()) && (item.due_date) ? 'listRecordDueDateOver' : 'listRecord'} 
                     style={{ opacity: item.status ? 0.3 : 1}}>

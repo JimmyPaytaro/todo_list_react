@@ -12,15 +12,6 @@ app.use(cors());
 // json形式で取得するためのミドルウェアの設定
 app.use(express.json());
 
-/*
-app.get("/", (req, res) => {
-    pool.query("SELECT * FROM todo_app", (error, results) => {
-        if (error) throw error;
-        return res.status(200).json(results.rows);
-    })
-});
-*/
-
 // 全件表示　ID降順
 app.get('/', async (req, res) => {
     try {
