@@ -1,10 +1,32 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SearchForm.css';
 import ReactPaginate from 'react-paginate';
 
-export const SearchForm = (props: any) => {
+// propsの型
+type PropsType = {
+    setData: Dispatch<SetStateAction<DataType[]>>;
+    data: DataType[];
+    setStart: Dispatch<SetStateAction<number>>;
+    perPage: number;
+}
+
+// Dataの型
+type DataType = {
+    id: number;
+    title: string;
+    partner: string;
+    description: string;
+    dueDate: Date;
+    status: boolean;
+    createdAt: EpochTimeStamp;
+    due_date: Date;
+    created_at: EpochTimeStamp;
+}
+
+
+export const SearchForm = (props: PropsType) => {
     const navigate = useNavigate();
 
     const [errorMassageTitle, setErrorMassageTitle] = useState<string>('');
@@ -54,8 +76,8 @@ export const SearchForm = (props: any) => {
     }, []);
 
     // react-paginateの実行メソッド
-    function pageChange(allData: any):void {
-        let pageNumber = allData['selected']; //選択されたページ番号
+    function pageChange(event: { selected: number }):void {
+        let pageNumber = event.selected; //選択されたページ番号
         let startNumber: number = pageNumber * props.perPage; //スタート位置をページ番号 * 1ページあたりの数、とする(例えば2番を選ぶと10 * 1で10番が先頭になる、つまり11番目以降の書籍が表示される)
         props.setStart(startNumber)
       }

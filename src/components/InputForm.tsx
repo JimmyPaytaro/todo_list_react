@@ -1,10 +1,30 @@
 import './InputForm.css';
 import { useNavigate } from "react-router-dom";
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
-export const InputForm = (props: any) => {
+// propsの型
+type PropsType = {
+    setData: Dispatch<SetStateAction<DataType[]>>;
+    setStart: Dispatch<SetStateAction<number>>;
+    perPage: number;
+}
+
+// Dataの型
+type DataType = {
+    id: number;
+    title: string;
+    partner: string;
+    description: string;
+    dueDate: Date;
+    status: boolean;
+    createdAt: EpochTimeStamp;
+    due_date: Date;
+    created_at: EpochTimeStamp;
+}
+
+export const InputForm = (props: PropsType) => {
     const [errorMassageBlank, setErrorMassageBlank] = useState<string>('');
     const [errorMassageTitle, setErrorMassageTitle] = useState<string>('');
     const [errorMassageDescription, setErrorMassageDescription] = useState<string>('');
@@ -32,11 +52,11 @@ export const InputForm = (props: any) => {
     }, []);
 
     // react-paginateの実行メソッド
-    const pageChange = (allData: any):void => {
-        let pageNumber = allData['selected']; //選択されたページ番号
+    const pageChange = (event: { selected: number }): void => {
+        let pageNumber = event.selected; //選択されたページ番号
         let startNumber: number = pageNumber * props.perPage; //スタート位置をページ番号 * 1ページあたりの数、とする(例えば2番を選ぶと10 * 1で10番が先頭になる、つまり11番目以降の書籍が表示される)
         props.setStart(startNumber);
-      }
+    }
     
       
     // 入力ボタン押下時の処理

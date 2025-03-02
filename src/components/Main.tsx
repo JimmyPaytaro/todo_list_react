@@ -1,11 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 import './Main.css';
 import { DeleteModal } from './DeleteModal';
 import { UpdateModal } from './UpdateModal';
 import edit from '../icon/edit.png';
 
-export const Main = (props: any) => {
+// propsの型
+type PropsType = {
+    setData: Dispatch<SetStateAction<DataType[]>>;
+    data: DataType[];
+    start: number;
+    perPage: number;
+}
+
+// Dataの型
+type DataType = {
+    id: number;
+    title: string;
+    partner: string;
+    description: string;
+    dueDate: Date;
+    status: boolean;
+    createdAt: EpochTimeStamp;
+    due_date: Date;
+    created_at: EpochTimeStamp;
+}
+
+export const Main = (props: PropsType) => {
     const [deleteShowModal, setDeleteShowModal] = useState(false); // DeleteModalの表示フラグ
     const [updateShowModal, setUpdateShowModal] = useState(false); // UpdateModalの表示フラグ
     const [id, setId] = useState<number | undefined>(undefined); // propsに渡す各レコードのid
@@ -15,7 +36,7 @@ export const Main = (props: any) => {
     const [dueDate, setDueDate] = useState<Date | undefined>(undefined); // propsに渡す各レコードのid
     // 詳細の表示フラグ
     const [descriptionShowFlag, setDescriptionShowFlag] = useState(
-        Object.fromEntries(props.data.map((item: any) => [item.id, false]))
+        Object.fromEntries(props.data.map((item: DataType) => [item.id, false]))
     );
     const [changeStatus, setChangeStatus] = useState<{id: number, status: boolean}>({id: 0, status: false}); // データベースのstatusを変更するための値
     const [status, setStatus] = useState<Record<number, boolean>>({}); // checkboxの値をstateで取得する
@@ -26,8 +47,8 @@ export const Main = (props: any) => {
             const isChecked = changeStatus.status;
             axios.post(`http://localhost:3000/statusChange/${isChecked ? 'true' : 'false'}`, { id })
                 .then(() => {
-                        props.setData((prevData: any) =>
-                          prevData.map((item: any) =>
+                        props.setData((prevData: DataType[]) =>
+                          prevData.map((item: DataType) =>
                             item.id === id ? { ...item, status: isChecked } : item
                           )
                         );
@@ -62,7 +83,7 @@ export const Main = (props: any) => {
 
     // 詳細を表示・非表示
     const handleShowDescription = (id: number): void => {
-        setDescriptionShowFlag((prev: any) => ({
+        setDescriptionShowFlag((prev: {[id: number]: boolean}) => ({
                 ...prev,
                 [id]: !prev[id]
               }));
@@ -70,7 +91,7 @@ export const Main = (props: any) => {
     
     // statusの値を変更(タスクの完了・未完了)
     const handleShowStatus = (id: number, defaultStatus: boolean): void => {
-        setStatus((prev: any) => ({
+        setStatus((prev: {[id: number]: boolean}) => ({
                 ...prev,
                 [id]: !prev[id]
                 }))
@@ -86,7 +107,7 @@ export const Main = (props: any) => {
     return (
         <>
         <main>
-            {props.data.slice(props.start, props.start + props.perPage).map((item: any) => (
+            {props.data.slice(props.start, props.start + props.perPage).map((item: DataType) => (
                 <div key={item.id} 
                     className={item.status ? 'listRecordCheckOver' : (new Date(item.due_date) <= new Date()) && (item.due_date) ? 'listRecordDueDateOver' : 'listRecord'} 
                     style={{ opacity: item.status ? 0.3 : 1}}>
@@ -147,14 +168,16 @@ export const Main = (props: any) => {
                 </div>
             ))}
         </main>
-        <DeleteModal deleteShowFlag={deleteShowModal} 
+        <DeleteModal 
+            deleteShowFlag={deleteShowModal} 
             setDeleteShowModal={setDeleteShowModal} 
             setData={props.setData} 
             data={props.data} 
             id={id} 
             title={title} 
         />
-        <UpdateModal updateShowFlag={updateShowModal} 
+        <UpdateModal 
+            updateShowFlag={updateShowModal} 
             setUpdateShowModal={setUpdateShowModal} 
             setData={props.setData} 
             data={props.data} 

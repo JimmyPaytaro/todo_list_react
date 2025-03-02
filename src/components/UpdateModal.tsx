@@ -1,9 +1,35 @@
 import './UpdateModal.css';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-export const UpdateModal = (props: any) => {
+// propsの型
+type PropsType = {
+    updateShowFlag: boolean;
+    setUpdateShowModal: Dispatch<SetStateAction<boolean>>;
+    setData: Dispatch<SetStateAction<DataType[]>>;
+    data: DataType[];
+    id: number | undefined;
+    title: string | undefined;
+    description: string | undefined;
+    partner: string | undefined;
+    dueDate: Date | undefined;
+}
+
+// Dataの型
+type DataType = {
+    id: number;
+    title: string;
+    partner: string;
+    description: string;
+    dueDate: Date;
+    status: boolean;
+    createdAt: EpochTimeStamp;
+    due_date: Date;
+    created_at: EpochTimeStamp;
+}
+
+export const UpdateModal = (props: PropsType) => {
     const [inputDueDate, setInputDueDate] = useState<string | undefined>(undefined);
     const [errorMassageBlank, setErrorMassageBlank] = useState<string>('');
     const [errorMassageTitle, setErrorMassageTitle] = useState<string>('');
@@ -53,7 +79,7 @@ export const UpdateModal = (props: any) => {
         const partner: string = partnerElement ? partnerElement.value : '';
         const dueDate: Date = new Date(dueDateElement!.value);
         // propsに渡す値
-        const id: number = props.id;
+        const id: number = props.id!;
         // データベースに送信する値
         const dataToSend = { id, title, description, partner, dueDate };
 

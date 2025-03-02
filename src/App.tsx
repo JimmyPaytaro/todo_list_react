@@ -7,7 +7,19 @@ import { Main } from './components/Main';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
-  const [data, setData] = useState([]);
+  type DataType = {
+    id: number;
+    title: string;
+    partner: string;
+    description: string;
+    dueDate: Date;
+    status: boolean;
+    createdAt: EpochTimeStamp;
+    due_date: Date;
+    created_at: EpochTimeStamp;
+  }
+
+  const [data, setData] = useState<DataType[]>([]);
   const [start, setStart] = useState<number>(0); // 最初は0番目(=最新)の要素から
   const [perPage, setPerPage] = useState<number>(10); // 1ページには10行表示
 
